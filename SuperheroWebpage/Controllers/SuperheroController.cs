@@ -57,18 +57,25 @@ namespace SuperheroWebpage.Controllers
         // GET: Superhero/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Superhero superhero = db.Superheroes.Where(a => a.Id == id).FirstOrDefault();
+            return View(superhero);
         }
 
         // POST: Superhero/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Superhero superhero)
         {
             try
             {
                 // TODO: Add update logic here
-
+                Superhero heroToUpdate = db.Superheroes.Where(a => a.Id == id).FirstOrDefault();
+                heroToUpdate.Name = superhero.Name;
+                heroToUpdate.AlterEgo = superhero.AlterEgo;
+                heroToUpdate.PrimaryAbility = superhero.PrimaryAbility;
+                heroToUpdate.SecondaryAbility = superhero.SecondaryAbility;
+                heroToUpdate.Catchphrase = superhero.Catchphrase;
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -80,18 +87,19 @@ namespace SuperheroWebpage.Controllers
         // GET: Superhero/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Superhero superhero = db.Superheroes.Where(a => a.Id == id).FirstOrDefault();
+            return View(superhero);
         }
 
         // POST: Superhero/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Superhero superhero)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                Superhero heroToUpdate
                 return RedirectToAction(nameof(Index));
             }
             catch
