@@ -11,7 +11,7 @@ namespace SuperheroWebpage.Controllers
 {
     public class SuperheroController : Controller
     {
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
         public SuperheroController(ApplicationDbContext context)
         {
             db = context;
@@ -26,7 +26,8 @@ namespace SuperheroWebpage.Controllers
         // GET: Superhero/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Superhero superhero = db.Superheroes.Where(a => a.Id == id).FirstOrDefault();
+            return View(superhero);
         }
 
         // GET: Superhero/Create
@@ -99,7 +100,9 @@ namespace SuperheroWebpage.Controllers
             try
             {
                 // TODO: Add delete logic here
-                Superhero heroToUpdate
+                Superhero heroToUpdate = db.Superheroes.Where(a => a.Id == id).FirstOrDefault();
+                db.Remove(heroToUpdate);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
